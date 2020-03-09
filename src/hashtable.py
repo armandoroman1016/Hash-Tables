@@ -98,25 +98,28 @@ class HashTable:
 
         if not self.storage[hashed]:
             print("No current value for key")
+            
  
-        else:
         # if key is equal to storage[hashed] and there is no other linked pairs at that value, set to none
-            if self.storage[hashed].key == key:
-
-                if not self.storage[hashed].next:
-                    self.storage[hashed] = None
+        elif self.storage[hashed].key == key and not self.storage[hashed].next:
+            self.storage[hashed] = None
+            
+        
+        else:
+             current = self.storage[hashed]
+             prev = None
+             nxt = current.next
+             while current:
+                #  if matching key is found, set the item to none
+                # and point the previous' next pointer to the current next
+                 if current.key == key:
+                     prev.next = current.next
+                     current = None
+                     break
                 
-                # TODO need to set all following pairs to prev
+                 prev = current
+                 current = current.next
 
-        # else if key at storage[hashed] not key
-
-                # loop through linked pairs next linked pair until keys match
-                    
-                    # if there is no next pair then remove
-
-                    # else loop and set all following pairs to previous
-
-        pass
 
 
     def retrieve(self, key):
