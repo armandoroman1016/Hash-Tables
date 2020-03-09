@@ -61,13 +61,23 @@ class HashTable:
 
         # else create new linked pair and set it to the next value of current linked pair
         else:
+            
             current = self.storage[hashed]
-
+            prev = None
             # iterating to find next available spot in linked list
-            while current.next is not None:
+            while current:
+                
+                # update scenario - returns immediateley after update
+                if current.key == key:
+                    current.value = value
+                    return
+
+                # updating previous and current for next iteration
+                prev = current
                 current = current.next
 
-            current.next = key_val
+            # we know after the while loop that current in none so we set the next key value pairs from previous iteration
+            prev.next = key_val
 
 
 
@@ -105,7 +115,7 @@ class HashTable:
                     # if there is no next pair then remove
 
                     # else loop and set all following pairs to previous
-                    
+
         pass
 
 
@@ -117,7 +127,28 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+
+        hashed = self._hash_mod(key)
+
+        if self.storage[hashed]:
+
+            if self.storage[hashed].key == key:
+                return self.storage[hashed].value
+            
+            else:
+
+                if self.storage[hashed].next:
+                    
+                    current = self.storage[hashed].next
+
+                    while current:
+
+                        if current.key == key:
+                            return current.value
+                        
+                        current = current.next
+
+        return None
 
 
     def resize(self):
