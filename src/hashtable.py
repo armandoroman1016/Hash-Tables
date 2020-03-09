@@ -161,7 +161,34 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        prev_storage = self.storage
+
+        prev_capacity = self.capacity
+
+        self.capacity *= 2
+
+        self.storage = [None] * self.capacity
+
+        for i in range(prev_capacity):
+            # if there is an element at index
+            if prev_storage[i]:
+
+                # if there is only a single linked pair, insert
+                if not prev_storage[i].next:
+                    self.insert(prev_storage[i].key, prev_storage[i].value)
+
+                # else go through elements at index and hash to new storage
+                else:
+                    # starting at head
+                    current = prev_storage[i]
+
+                    while current:
+                        # iterating through linked list and inserting all key, val pairs
+                        self.insert(current.key, current.value)
+                        current =  current.next
+                    
+                    
+            
 
 
 
