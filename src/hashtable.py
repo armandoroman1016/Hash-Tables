@@ -51,7 +51,24 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+
+        hashed = self._hash_mod(key)
+        key_val = LinkedPair(key, value)
+
+        # if hashed key is none set the value as a linked pair
+        if not self.storage[hashed]:
+            self.storage[hashed] = key_val
+
+        # else create new linked pair and set it to the next value of current linked pair
+        else:
+            current = self.storage[hashed]
+
+            # iterating to find next available spot in linked list
+            while current.next is not None:
+                current = current.next
+
+            current.next = key_val
+
 
 
 
@@ -63,6 +80,32 @@ class HashTable:
 
         Fill this in.
         '''
+
+        # hash the key
+        hashed = self._hash_mod(key)
+
+        # if storage[hashed] is none then return warning
+
+        if not self.storage[hashed]:
+            print("No current value for key")
+ 
+        else:
+        # if key is equal to storage[hashed] and there is no other linked pairs at that value, set to none
+            if self.storage[hashed].key == key:
+
+                if not self.storage[hashed].next:
+                    self.storage[hashed] = None
+                
+                # TODO need to set all following pairs to prev
+
+        # else if key at storage[hashed] not key
+
+                # loop through linked pairs next linked pair until keys match
+                    
+                    # if there is no next pair then remove
+
+                    # else loop and set all following pairs to previous
+                    
         pass
 
 
