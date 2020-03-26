@@ -51,7 +51,34 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+
+        hashed = self._hash_mod(key)
+        key_val = LinkedPair(key, value)
+
+        # if hashed key is none set the value as a linked pair
+        if not self.storage[hashed]:
+            self.storage[hashed] = key_val
+
+        # else create new linked pair and set it to the next value of current linked pair
+        else:
+            
+            current = self.storage[hashed]
+            prev = None
+            # iterating to find next available spot in linked list
+            while current:
+                
+                # update scenario - returns immediateley after update
+                if current.key == key:
+                    current.value = value
+                    return
+
+                # updating previous and current for next iteration
+                prev = current
+                current = current.next
+
+            # we know after the while loop that current in none so we set the next key value pairs from previous iteration
+            prev.next = key_val
+
 
 
 
@@ -63,7 +90,36 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+
+        # hash the key
+        hashed = self._hash_mod(key)
+
+        # if storage[hashed] is none then return warning
+
+        if not self.storage[hashed]:
+            print("No current value for key")
+            
+ 
+        # if key is equal to storage[hashed] and there is no other linked pairs at that value, set to none
+        elif self.storage[hashed].key == key and not self.storage[hashed].next:
+            self.storage[hashed] = None
+            
+        
+        else:
+             current = self.storage[hashed]
+             prev = None
+             nxt = current.next
+             while current:
+                #  if matching key is found, set the item to none
+                # and point the previous' next pointer to the current next
+                 if current.key == key:
+                     prev.next = current.next
+                     current = None
+                     break
+                
+                 prev = current
+                 current = current.next
+
 
 
     def retrieve(self, key):
@@ -74,7 +130,28 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+
+        hashed = self._hash_mod(key)
+
+        if self.storage[hashed]:
+
+            if self.storage[hashed].key == key:
+                return self.storage[hashed].value
+            
+            else:
+
+                if self.storage[hashed].next:
+                    
+                    current = self.storage[hashed].next
+
+                    while current:
+
+                        if current.key == key:
+                            return current.value
+                        
+                        current = current.next
+
+        return None
 
 
     def resize(self):
@@ -84,7 +161,34 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        prev_storage = self.storage
+
+        prev_capacity = self.capacity
+
+        self.capacity *= 2
+
+        self.storage = [None] * self.capacity
+
+        for i in range(prev_capacity):
+            # if there is an element at index
+            if prev_storage[i]:
+
+                # if there is only a single linked pair, insert
+                if not prev_storage[i].next:
+                    self.insert(prev_storage[i].key, prev_storage[i].value)
+
+                # else go through elements at index and hash to new storage
+                else:
+                    # starting at head
+                    current = prev_storage[i]
+
+                    while current:
+                        # iterating through linked list and inserting all key, val pairs
+                        self.insert(current.key, current.value)
+                        current =  current.next
+                    
+                    
+            
 
 
 
